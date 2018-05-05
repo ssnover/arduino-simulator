@@ -1,6 +1,6 @@
 /*
  * file: arduino-emulated-calls.hpp
- * purpose: Provide an inteface similar to Arduino for the user code to call.
+ * purpose: Provide an interface similar to Arduino for the user code to call.
  */
 
 #ifndef ARDUINO_EMULATED_CALLS_HPP
@@ -8,16 +8,28 @@
 
 
 #include "USART.hpp"
+#include "arduino-simulator.hpp"
 
 
 namespace SIM
 {
 
+namespace
+{
+SIM::USART & Serial = SIM::USART::getInstance();
+} // anonymous namespace
+
 constexpr bool OUTPUT(true);
 constexpr bool INPUT(false);
 constexpr bool HIGH(true);
-constexpr bool LOW(true);
-USART & Serial = USART::getInstance();
+constexpr bool LOW(false);
+constexpr int A0(14);
+constexpr int A1(15);
+constexpr int A2(16);
+constexpr int A3(17);
+constexpr int A4(18);
+constexpr int A5(19);
+constexpr int A6(20);
 
 /*
  * Sets a digital pin as an input or output.
@@ -50,7 +62,7 @@ bool digitalRead(int pin_number);
  *
  * seconds - The length of time to pause the application for.
  */
-void wait(double seconds);
+void delay(double seconds);
 
 } // namespace SIM
 

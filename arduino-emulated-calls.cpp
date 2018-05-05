@@ -6,19 +6,17 @@
 #include <chrono>
 #include <thread>
 #include "arduino-emulated-calls.hpp"
-#include "arduino-simulator.hpp"
 
 namespace SIM
 {
 
 /*
- * Sets a digital pin as an input or output.
+ * Sets a pin as an input or output.
  */
 void pinMode(int pin_number, bool direction)
 {
-    // TODO: Make this take an Arduino Sim Pin
-    // Make a call to the Arduino Simulator
-    ARDUINO_SIMULATOR::pinMode(pin_number, direction);
+    ARDUINO_PIN_INTF * pin = ARDUINO_SIMULATOR::getInstance()->getPin(pin_number);
+    pin->pinMode(static_cast<ARDUINO_PIN_INTF::DIRECTION>(direction));
 }
 
 
@@ -28,6 +26,8 @@ void pinMode(int pin_number, bool direction)
 void digitalWrite(int pin_number, bool output_setting)
 {
     // Get the Digital Pin
+    ARDUINO_PIN_INTF * pin = ARDUINO_SIMULATOR::getInstance()->getPin(pin_number);
+    pin->digitalWrite(static_cast<ARDUINO_PIN_INTF::STATE>(output_setting));
 }
 
 
@@ -37,17 +37,17 @@ void digitalWrite(int pin_number, bool output_setting)
 bool digitalRead(int pin_number)
 {
     // Get the Digital Pin
+    ARDUINO_PIN_INTF * pin = ARDUINO_SIMULATOR::getInstance()->getPin(pin_number);
+    return static_cast<bool>(pin->digitalRead());
 }
 
 
 /*
  * Pause application flow for a time period.
  */
-void wait(double seconds)
+void delay(double seconds)
 {
-    auto time_seconds = std::chrono_literals::operator""s(0);
-    auto time_nanoseconds = std::chrono_literals::operator""ns(seconds * 1e9);
-    std::this_thread::__sleep_for(time_seconds, time_nanoseconds);
+    std::this_thread::__sleep_for(std::chrono::seconds(0), std::chrono::nanoseconds(static_cast<long int>(seconds * 1e9)));
 }
 
 } // namespace SIM

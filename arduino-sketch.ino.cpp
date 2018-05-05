@@ -16,8 +16,8 @@ void setup()
 void loop()
 {
     digitalWrite(13, HIGH);
-    wait(0.5);
+    delay(0.5);
     digitalWrite(13, LOW);
-    wait(0.5);
+    delay(0.5);
     Serial.println("Toggling my LED for dayssss");
 }
