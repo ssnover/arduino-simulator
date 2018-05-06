@@ -27,5 +27,6 @@ set(HEADER_FILES
         serial-terminal.hpp
         USART.hpp)
 
+add_definitions(-DARDUINO_SIMULATOR_FLAG)
 add_executable(simduino ${SOURCE_FILES} ${HEADER_FILES})
 target_link_libraries(simduino LINK_PUBLIC Threads::Threads)

@@ -3,7 +3,9 @@
  * purpose: Place for the user to put code to be run on the Arduino.
  */
 
-#include "arduino-sketch.hpp"
+#ifdef ARDUINO_SIMULATOR_FLAG
+  #include "arduino-sketch.hpp"
+#endif // ARDUINO_SIMULATOR_FLAG
 
 
 void setup()
